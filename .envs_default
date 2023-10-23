@@ -1,0 +1,4 @@
+API_KEY=
+API_TOKEN=
+API_URL='https://zadania.aidevs.pl/'
+TASK_NAME=helloapi
