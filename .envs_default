@@ -1,3 +1,4 @@
 API_KEY=
 API_URL='https://zadania.aidevs.pl/'
 TASK_NAME=
+OPENAI_API_KEY=

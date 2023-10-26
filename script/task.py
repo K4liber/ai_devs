@@ -40,35 +40,40 @@ def set_token() -> None:
         file.write(f'TOKEN={token}')
 
 
-def print_task() -> None:
+def get_task_dict() -> dict:
     get_token_url = urllib.parse.urljoin(API_URL, f'task/{TOKEN}')
     print(f'Print task URL: {get_token_url}')
     response = requests.get(get_token_url)
     response_dict = json.loads(response.text)
+    return response_dict
+
+def print_task() -> None:
+    response_dict = get_task_dict()
     print(f'Response: {response_dict}')
 
 
-def answer_with_str(answer_str: str) -> None:
+def answer(answer: str | list | dict) -> None:
     answer_url = urllib.parse.urljoin(API_URL, f'answer/{TOKEN}')
-    answer_dict = {'answer': answer_str}
+    answer_dict = {'answer': answer}
     print(f'Answer URL: {answer_url}')
     response = requests.post(answer_url, json = answer_dict)
     response_dict = json.loads(response.text)
     print(f'Response: {response_dict}')
 
 
-cmd = sys.argv[1]
-print(f'Running command "{cmd}" ...')
+if __name__ == '__main__':
+    cmd = sys.argv[1]
+    print(f'Running command "{cmd}" ...')
 
-cmd_to_func = {
-    'set_token': (set_token, lambda: {}),
-    'print_task': (print_task, lambda: {}),
-    'answer_with_str': (answer_with_str, lambda: {'answer_str': sys.argv[2]}),
-}
-func_and_kwargs = cmd_to_func.get(cmd, None)
+    cmd_to_func = {
+        'set_token': (set_token, lambda: {}),
+        'print_task': (print_task, lambda: {}),
+        'answer_with_str': (answer, lambda: {'answer': sys.argv[2]}),
+    }
+    func_and_kwargs = cmd_to_func.get(cmd, None)
 
-if func_and_kwargs is None:
-    raise ValueError(f'Uknown command "{cmd}"')
+    if func_and_kwargs is None:
+        raise ValueError(f'Uknown command "{cmd}"')
 
-func_to_execute, kwargs = func_and_kwargs
-func_to_execute(**kwargs())
+    func_to_execute, kwargs = func_and_kwargs
+    func_to_execute(**kwargs())
