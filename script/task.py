@@ -40,12 +40,24 @@ def set_token() -> None:
         file.write(f'TOKEN={token}')
 
 
+def post_task_dict(question: str) -> dict:
+    task_question_url_post = urllib.parse.urljoin(API_URL, f'task/{TOKEN}')
+    print(f'Task question URL: {task_question_url_post}, question: {question}')
+    json_dict = {
+        'question': question
+    }
+    response = requests.post(task_question_url_post, data=json_dict)
+    response_dict = json.loads(response.text)
+    return response_dict
+
+
 def get_task_dict() -> dict:
     get_token_url = urllib.parse.urljoin(API_URL, f'task/{TOKEN}')
     print(f'Print task URL: {get_token_url}')
     response = requests.get(get_token_url)
     response_dict = json.loads(response.text)
     return response_dict
+
 
 def print_task() -> None:
     response_dict = get_task_dict()
@@ -56,7 +68,7 @@ def answer(answer: str | list | dict) -> None:
     answer_url = urllib.parse.urljoin(API_URL, f'answer/{TOKEN}')
     answer_dict = {'answer': answer}
     print(f'Answer URL: {answer_url}')
-    response = requests.post(answer_url, json = answer_dict)
+    response = requests.post(answer_url, json=answer_dict)
     response_dict = json.loads(response.text)
     print(f'Response: {response_dict}')
 
