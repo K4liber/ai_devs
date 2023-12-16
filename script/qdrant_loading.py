@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams
 
@@ -22,7 +23,7 @@ if __name__ == '__main__':
     metadata = []
     ids = []
 
-    with open('data/archiwum.json', 'r') as archive_file:
+    with (Path('data') / 'archiwum.json', 'r') as archive_file:
         data = json.load(archive_file)
 
         for index, single_element in enumerate(data[:500], start=1):
