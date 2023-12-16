@@ -8,17 +8,23 @@ import sys
 
 
 ROOT_DIR = Path(__file__).parent.parent
-
-def load_envs():
-    for env_file_name in ['.envs', '.token']:
-        load_dotenv(ROOT_DIR / env_file_name)
-
-load_envs()
 API_KEY = os.getenv('API_KEY')
 API_URL = os.getenv('API_URL')
 TASK_NAME = os.getenv('TASK_NAME')
 TOKEN = os.getenv('TOKEN')
 
+def load_envs():
+    global API_KEY, API_URL, TASK_NAME, TOKEN
+
+    for env_file_name in ['.envs', '.token']:
+        load_dotenv(ROOT_DIR / env_file_name)
+    
+    API_KEY = os.getenv('API_KEY')
+    API_URL = os.getenv('API_URL')
+    TASK_NAME = os.getenv('TASK_NAME')
+    TOKEN = os.getenv('TOKEN')
+
+load_envs()
 
 def set_token() -> None:
     api_token_dict = {
@@ -38,6 +44,8 @@ def set_token() -> None:
 
     with open(ROOT_DIR / '.token', 'w') as file:
         file.write(f'TOKEN={token}')
+
+    load_envs()
 
 
 def post_task_dict(question: str) -> dict:
