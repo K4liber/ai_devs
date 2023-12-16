@@ -1,4 +1,4 @@
 .envs
 __pycache__/
 .token
-data/archiwum.json
+data/*
