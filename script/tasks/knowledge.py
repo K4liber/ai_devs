@@ -95,7 +95,7 @@ if __name__ == '__main__':
     task_dict = get_task_dict()
     question = task_dict['question']
     print(f'Question: {question}')
-    formalized_question = get_formalized_question(question=task_dict['question'])
+    formalized_question = get_formalized_question(question=question)
     print(f'Fromalized question: {formalized_question}')
     category_to_function = {
         'currency': get_exchange_rate_data,
