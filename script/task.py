@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 import json
 import os
 from dotenv import load_dotenv
@@ -8,29 +9,36 @@ import sys
 
 
 ROOT_DIR = Path(__file__).parent.parent
-API_KEY = os.getenv('API_KEY')
-API_URL = os.getenv('API_URL')
-TASK_NAME = os.getenv('TASK_NAME')
-TOKEN = os.getenv('TOKEN')
 
-def load_envs():
-    global API_KEY, API_URL, TASK_NAME, TOKEN
-
-    for env_file_name in ['.envs', '.token']:
-        load_dotenv(ROOT_DIR / env_file_name)
-    
+@dataclass
+class _Envs:
     API_KEY = os.getenv('API_KEY')
     API_URL = os.getenv('API_URL')
     TASK_NAME = os.getenv('TASK_NAME')
     TOKEN = os.getenv('TOKEN')
 
+
+ENVS = _Envs()
+
+
+def load_envs():
+    global ENVS
+
+    for env_file_name in ['.envs', '.token']:
+        load_dotenv(ROOT_DIR / env_file_name)
+    
+    ENVS.API_KEY = os.getenv('API_KEY')
+    ENVS.API_URL = os.getenv('API_URL')
+    ENVS.TASK_NAME = os.getenv('TASK_NAME')
+    ENVS.TOKEN = os.getenv('TOKEN')
+
 load_envs()
 
 def set_token() -> None:
     api_token_dict = {
-        'apikey': API_KEY
+        'apikey': ENVS.API_KEY
     }
-    get_token_url = urllib.parse.urljoin(API_URL, f'token/{TASK_NAME}')
+    get_token_url = urllib.parse.urljoin(ENVS.API_URL, f'token/{ENVS.TASK_NAME}')
     print(f'Get token URL: {get_token_url}')
     response = requests.post(get_token_url, json = api_token_dict)
     response_dict = json.loads(response.text)
@@ -49,7 +57,7 @@ def set_token() -> None:
 
 
 def post_task_dict(question: str) -> dict:
-    task_question_url_post = urllib.parse.urljoin(API_URL, f'task/{TOKEN}')
+    task_question_url_post = urllib.parse.urljoin(ENVS.API_URL, f'task/{ENVS.TOKEN}')
     print(f'Task question URL: {task_question_url_post}, question: {question}')
     json_dict = {
         'question': question
@@ -60,7 +68,7 @@ def post_task_dict(question: str) -> dict:
 
 
 def get_task_dict() -> dict:
-    get_token_url = urllib.parse.urljoin(API_URL, f'task/{TOKEN}')
+    get_token_url = urllib.parse.urljoin(ENVS.API_URL, f'task/{ENVS.TOKEN}')
     print(f'Print task URL: {get_token_url}')
     response = requests.get(get_token_url)
     response_dict = json.loads(response.text)
@@ -73,7 +81,7 @@ def print_task() -> None:
 
 
 def answer(answer: str | list | dict) -> None:
-    answer_url = urllib.parse.urljoin(API_URL, f'answer/{TOKEN}')
+    answer_url = urllib.parse.urljoin(ENVS.API_URL, f'answer/{ENVS.TOKEN}')
     answer_dict = {'answer': answer}
     print(f'Answer URL: {answer_url}')
     response = requests.post(answer_url, json=answer_dict)
