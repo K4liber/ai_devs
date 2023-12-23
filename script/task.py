@@ -16,6 +16,8 @@ class _Envs:
     API_URL = os.getenv('API_URL')
     TASK_NAME = os.getenv('TASK_NAME')
     TOKEN = os.getenv('TOKEN')
+    OWN_API_URL = os.getenv('OWN_API_URL')
+    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 
 ENVS = _Envs()
@@ -31,6 +33,9 @@ def load_envs():
     ENVS.API_URL = os.getenv('API_URL')
     ENVS.TASK_NAME = os.getenv('TASK_NAME')
     ENVS.TOKEN = os.getenv('TOKEN')
+    ENVS.OWN_API_URL = os.getenv('OWN_API_URL')
+    ENVS.OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+
 
 load_envs()
 
@@ -80,13 +85,22 @@ def print_task() -> None:
     print(f'Response: {response_dict}')
 
 
-def answer(answer: str | list | dict) -> None:
+def answer(answer: str | list | dict, final_answer: bool = False) -> None:
     answer_url = urllib.parse.urljoin(ENVS.API_URL, f'answer/{ENVS.TOKEN}')
-    answer_dict = {'answer': answer}
+
+    if final_answer:
+        answer_dict = answer
+    else:
+        answer_dict = {'answer': answer}
+
     print(f'Answer URL: {answer_url}')
     response = requests.post(answer_url, json=answer_dict)
-    response_dict = json.loads(response.text)
-    print(f'Response: {response_dict}')
+
+    try:
+        response_dict = json.loads(response.text)
+        print(f'Response: {response_dict}')
+    except json.decoder.JSONDecodeError:
+        print(f'Decoding error. Response = {response.text}')
 
 
 if __name__ == '__main__':
