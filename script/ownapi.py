@@ -50,16 +50,8 @@ async def ai_devs_question(question: AiDevsQuestion):
     print(f'Get a question: {question.question}')
     set_token()
     reply = get_ai_answer(question=question.question)
+    print(f'Sending an answer: {reply}')
     return AiDevsAsnwer(reply=reply)
-
-
-@app.get("/ai_devs")
-async def ai_devs_test(question):
-    print(question)
-    set_token()
-    task_dict = get_task_dict()
-    answer()
-    return {"task_dict": task_dict}
 
 
 if __name__ == '__main__':
