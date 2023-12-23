@@ -7,6 +7,8 @@ dependencies:
   - python-dotenv=1.0.0
   - requests=2.31.0
   - openai=0.28.1
+  - fastapi=0.105.0
   - pip:
-    - qdrant-client=1.7.0
-    - fastembed=0.1.3
+    - qdrant-client==1.7.0
+    - fastembed==0.1.3
+    - uvicorn==0.25.0
