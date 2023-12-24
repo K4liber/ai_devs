@@ -16,9 +16,13 @@ def get_ai_answer(
     ) -> str:
     openai.api_key = ENVS.OPENAI_API_KEY
     system = "Odpowiadasz na zadane pytanie." + \
-        ('\n' + system_additional_context) if system_additional_context else ''
+        (
+            '\nOto dodatkowe informacje, które możesz wykorzystać ' +
+            'przy udzielaniu odpowiedzi:\n' +
+            system_additional_context
+        ) if system_additional_context else ''
     response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo',
+        model='gpt-4',
         messages=[
             {
                 "role": "system",
