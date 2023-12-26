@@ -60,7 +60,7 @@ def set_token() -> None:
     with open(ROOT_DIR / '.token', 'w') as file:
         file.write(f'TOKEN={token}')
 
-    load_envs()
+    ENVS.TOKEN = token
 
 
 def post_task_dict(question: str) -> dict:
