@@ -1,11 +1,12 @@
 import openai
 from pydantic import BaseModel
+import urllib.parse
 from script.task import ENVS, answer, set_token
 
 
 def trigger() -> None:
     set_token()
-    url = ENVS.OWN_API_URL
+    url = urllib.parse.urljoin(ENVS.OWN_API_URL, ENVS.TASK_NAME)
     print(f'Sending own API URL = {url}')
     answer(answer=url)
 

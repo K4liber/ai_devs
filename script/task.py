@@ -19,6 +19,7 @@ class _Envs:
     OWN_API_URL = os.getenv('OWN_API_URL')
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
     RENDER_FORM_API_KEY = os.getenv('RENDER_FORM_API_KEY')
+    SERP_API_KEY = os.getenv('SERP_API_KEY')
 
 
 ENVS = _Envs()
@@ -37,6 +38,7 @@ def load_envs():
     ENVS.OWN_API_URL = os.getenv('OWN_API_URL')
     ENVS.OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
     ENVS.RENDER_FORM_API_KEY = os.getenv('RENDER_FORM_API_KEY')
+    ENVS.SERP_API_KEY = os.getenv('SERP_API_KEY')
 
 
 load_envs()
